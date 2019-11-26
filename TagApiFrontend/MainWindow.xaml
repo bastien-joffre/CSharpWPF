@@ -56,12 +56,12 @@
                     ClickMode="Press"
                     Height="30"
                     Width="200"
-                    VerticalAlignment="Center" Click="Btn2_Click">
+                    VerticalAlignment="Center">
                 Rechercher
             </Button>
         </Grid>
-        <TextBlock Name="Content" Grid.Column="1">
-            
-        </TextBlock>
+        <StackPanel Name="Results" Grid.Column="1" Margin="30, 30" Width="Auto">
+            <TextBlock Grid.Column="1" Text="{Binding StopList}"/>
+        </StackPanel>
     </Grid>
 </Window>

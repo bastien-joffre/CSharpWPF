@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using TagApiLibrary;
 
 namespace TagApiFrontend
 {
@@ -21,28 +20,18 @@ namespace TagApiFrontend
     /// </summary>
     public partial class MainWindow : Window
     {
-        UtilApi _api;
+        StopsViewModel _stopsVM;
 
         public MainWindow()
         {
             InitializeComponent();
-            _api = new UtilApi();
+            _stopsVM = new StopsViewModel();
+            this.DataContext = _stopsVM;
         }
 
-        private void Btn2_Click(object sender, RoutedEventArgs e)
-        {
-            Dictionary<string, List<Stop>> stops = _api.getListLigne(500);
-
-            string result = "";
-            foreach (KeyValuePair<string, List<Stop>> stopGroup in stops)
-            {
-                result += stopGroup.Key;
-                foreach (Stop stop in stopGroup.Value)
-                {
-                    result += stop;
-                }
-            }
-            Content.Text = result;
-        }
+        //private void Btn2_Click(object sender, RoutedEventArgs e)
+        //{
+        //    Content.Text = _stopsVM.getInfos(500);
+        //}
     }
 }
