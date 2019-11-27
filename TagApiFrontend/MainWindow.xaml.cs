@@ -15,9 +15,6 @@ using System.Windows.Shapes;
 
 namespace TagApiFrontend
 {
-    /// <summary>
-    /// Logique d'interaction pour MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         StopsViewModel _stopsVM;
@@ -28,10 +25,5 @@ namespace TagApiFrontend
             _stopsVM = new StopsViewModel();
             this.DataContext = _stopsVM;
         }
-
-        //private void Btn2_Click(object sender, RoutedEventArgs e)
-        //{
-        //    Content.Text = _stopsVM.getInfos(500);
-        //}
     }
 }

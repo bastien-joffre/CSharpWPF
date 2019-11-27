@@ -15,8 +15,8 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="320"/>
-            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="40*"/>
+            <ColumnDefinition Width="60*"/>
         </Grid.ColumnDefinitions>
 
         <Grid x:Name="LayoutRoot" Grid.Column="0" Background="#555555" Height="Auto" Width="Auto">
@@ -46,22 +46,57 @@
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Coodonnées Y" Style="{StaticResource input}"/>
                 <TextBox Grid.Row="1" Grid.Column="1" Margin="10"/>
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Distance" Style="{StaticResource input}"/>
-                <TextBox Grid.Row="2" Grid.Column="1" Margin="10"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Margin="10" Text="{Binding Radius}" />
             </Grid>
-            <Button Grid.Row="2"
-                    Name="btn2"
-                    Background="LightBlue"
-                    BorderBrush="Black"
-                    BorderThickness="1"
-                    ClickMode="Press"
-                    Height="30"
-                    Width="200"
-                    VerticalAlignment="Center">
-                Rechercher
-            </Button>
+            <Button
+                Command="{Binding SearchButton}"
+                Content="search"
+                Grid.Row="2"
+                x:Name="Search"
+                Background="LightBlue"
+                BorderBrush="Black"
+                BorderThickness="1"
+                ClickMode="Press"
+                Height="30"
+                Width="200"
+                VerticalAlignment="Center" />
         </Grid>
-        <StackPanel Name="Results" Grid.Column="1" Margin="30, 30" Width="Auto">
-            <TextBlock Grid.Column="1" Text="{Binding StopList}"/>
-        </StackPanel>
+
+        <ItemsControl ItemsSource="{Binding StopList}" Grid.Column="1" Margin="30">
+            <ItemsControl.ItemTemplate>
+                <DataTemplate>
+                    <Grid Background="LightGray" Margin="10">
+                        <Grid.RowDefinitions>
+                            <RowDefinition />
+                            <RowDefinition />
+                        </Grid.RowDefinitions>
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.ColumnSpan="1" Text="{Binding Key}"/>
+                        <ItemsControl ItemsSource="{Binding Value}" Grid.Row="1">
+                            <ItemsControl.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding id}"/>
+                                        <ItemsControl ItemsSource="{Binding linesInfos}">
+                                            <ItemsControl.ItemTemplate>
+                                                <DataTemplate>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding longName}"/>
+                                                    </StackPanel>
+                                                </DataTemplate>
+                                            </ItemsControl.ItemTemplate>
+                                        </ItemsControl>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ItemsControl.ItemTemplate>
+                        </ItemsControl>
+                    </Grid>
+                </DataTemplate>
+            </ItemsControl.ItemTemplate>
+        </ItemsControl>
     </Grid>
 </Window>

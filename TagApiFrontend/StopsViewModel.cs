@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Input;
 using TagApiLibrary;
 
 namespace TagApiFrontend
@@ -13,9 +14,23 @@ namespace TagApiFrontend
     {
         public event PropertyChangedEventHandler PropertyChanged;
         UtilApi _api;
-        string _stopList;
+        Dictionary<string, List<Stop>> _stopList;
+        int _radius;
+        ICommand _searchButton;
 
-        public string StopList
+        public ICommand SearchButton
+        {
+            get
+            {
+                return _searchButton;
+            }
+            set
+            {
+                _searchButton = value;
+            }
+        }
+
+        public Dictionary<string, List<Stop>> StopList
         {
             get { return _stopList; }
             set
@@ -23,7 +38,19 @@ namespace TagApiFrontend
                 if (_stopList != value)
                 {
                     _stopList = value;
-                    this.RaisePropertyChanged(nameof(StopList));
+                    RaisePropertyChanged(nameof(StopList));
+                }
+            }
+        }
+
+        public int Radius {
+            get { return _radius;  }
+            set
+            {
+                if (_radius != value)
+                {
+                    _radius = value;
+                    RaisePropertyChanged(nameof(Radius));
                 }
             }
         }
@@ -31,25 +58,19 @@ namespace TagApiFrontend
         public StopsViewModel()
         {
             _api = new UtilApi();
-            StopList = getInfos(500);
+            Radius = 500;
+            searchStops();
+            SearchButton = new RelayCommand(this.searchStops);
         }
 
-        public string getInfos(int dist)
+        public void searchStops()
         {
-            _api = new UtilApi();
+            StopList = getInfos(Radius);
+        }
 
-            Dictionary<string, List<Stop>> stops = _api.getStopList(dist);
-
-            string result = "";
-            foreach (KeyValuePair<string, List<Stop>> stopGroup in stops)
-            {
-                result += stopGroup.Key;
-                foreach (Stop stop in stopGroup.Value)
-                {
-                    result += stop;
-                }
-            }
-            return result;
+        public Dictionary<string, List<Stop>> getInfos(int dist)
+        {
+            return _api.getStopList(dist);
         }
 
         private void RaisePropertyChanged(string propertyName)
