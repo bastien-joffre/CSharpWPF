@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:TagApiFrontend"
+        xmlns:m="clr-namespace:Microsoft.Maps.MapControl.WPF;assembly=Microsoft.Maps.MapControl.WPF"
         mc:Ignorable="d"
         Title="MainWindow" Height="600" Width="800">
     <Window.Resources>
@@ -27,6 +27,7 @@
                 <RowDefinition Height="150" />
                 <RowDefinition Height="160" />
                 <RowDefinition Height="100"/>
+                <RowDefinition />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0"
                FontWeight="Bold" FontSize="40"
@@ -48,18 +49,21 @@
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Distance" Style="{StaticResource input}"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Margin="10" Text="{Binding Radius}" />
             </Grid>
-            <Button
-                Command="{Binding SearchButton}"
-                Content="search"
-                Grid.Row="2"
-                x:Name="Search"
-                Background="LightBlue"
-                BorderBrush="Black"
-                BorderThickness="1"
-                ClickMode="Press"
-                Height="30"
-                Width="200"
-                VerticalAlignment="Center" />
+            <Button Command="{Binding SearchButton}"
+                    Content="search"
+                    Grid.Row="2"
+                    x:Name="Search"
+                    Background="LightBlue"
+                    ClickMode="Press"
+                    Height="30"
+                    Width="200"
+                    VerticalAlignment="Center" />
+            <m:Map CredentialsProvider="Ag7S_jEDa7eN0ObJKjvGlgcl_X48w8Vm9kl6U1rQ94fgIvZkorcfAzrOVZxiSpLc"
+                   Center="45.185603, 5.727718"
+                   x:Name="mapControl"
+                   Grid.Row="3"
+                   ZoomLevel="13"
+                   Mode="AerialWithLabels" />
         </Grid>
 
         <ItemsControl ItemsSource="{Binding StopList}" Grid.Column="1" Margin="30">
