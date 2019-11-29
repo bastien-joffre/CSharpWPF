@@ -55,10 +55,60 @@ namespace TagApiFrontend
             }
         }
 
+        private string _lat;
+        public string Lat
+        {
+            get { return _lat; }
+            set
+            {
+                if (_lat != value)
+                {
+                    _lat = value;
+                    RaisePropertyChanged(nameof(Lat));
+                }
+            }
+        }
+
+        private string _lon;
+        public string Lon
+        {
+            get { return _lon; }
+            set
+            {
+                if (_lon != value)
+                {
+                    _lon = value;
+                    RaisePropertyChanged(nameof(Lon));
+                }
+            }
+        }
+
+        public string Coordinates
+        {
+            get
+            {
+                return Lat + ", " + Lon;
+            }
+            set { }
+        }
+
+        private List<string> _location;
+        public List<string> Location
+        {
+            get { return _location; }
+            set
+            {
+                _location = value;
+                RaisePropertyChanged(nameof(Location));
+            }
+        }
+
         public StopsViewModel()
         {
             _api = new UtilApi();
             Radius = 500;
+            Lat = "45.185603";
+            Lon = "5.727718";
             searchStops();
             SearchButton = new RelayCommand(this.searchStops);
         }
@@ -66,11 +116,24 @@ namespace TagApiFrontend
         public void searchStops()
         {
             StopList = getInfos(Radius);
+
+            List<string> loc = new List<string>();
+
+            foreach (KeyValuePair<string, List<Stop>> stop in StopList)
+            {
+                foreach (Stop s in stop.Value)
+                {
+                    string strLat = s.lat;
+                    string strLon = s.lon;
+                    loc.Add(strLat + "," + strLon);
+                }
+            }
+            this.Location = loc;
         }
 
         public Dictionary<string, List<Stop>> getInfos(int dist)
         {
-            return _api.getStopList(dist);
+            return _api.getStopList(dist, Lon, Lat);
         }
 
         private void RaisePropertyChanged(string propertyName)

@@ -15,8 +15,8 @@
     </Window.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40*"/>
-            <ColumnDefinition Width="60*"/>
+            <ColumnDefinition Width="50*"/>
+            <ColumnDefinition Width="50*"/>
         </Grid.ColumnDefinitions>
 
         <Grid x:Name="LayoutRoot" Grid.Column="0" Background="#555555" Height="Auto" Width="Auto">
@@ -24,10 +24,10 @@
                 <ColumnDefinition/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="150" />
-                <RowDefinition Height="160" />
-                <RowDefinition Height="100"/>
-                <RowDefinition />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="2*" />
+                <RowDefinition Height="1*" />
+                <RowDefinition Height="4*" />
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0"
                FontWeight="Bold" FontSize="40"
@@ -43,9 +43,9 @@
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
                 <TextBlock Grid.Row="0" Grid.Column="0" Text="Coordonnées X" Style="{StaticResource input}"/>
-                <TextBox Grid.Row="0" Grid.Column="1" Margin="10"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Margin="10" Text="{Binding Lon}" />
                 <TextBlock Grid.Row="1" Grid.Column="0" Text="Coodonnées Y" Style="{StaticResource input}"/>
-                <TextBox Grid.Row="1" Grid.Column="1" Margin="10"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Margin="10" Text="{Binding Lat}" />
                 <TextBlock Grid.Row="2" Grid.Column="0" Text="Distance" Style="{StaticResource input}"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Margin="10" Text="{Binding Radius}" />
             </Grid>
@@ -63,7 +63,15 @@
                    x:Name="mapControl"
                    Grid.Row="3"
                    ZoomLevel="13"
-                   Mode="AerialWithLabels" />
+                   Mode="Road">
+                <m:MapItemsControl ItemsSource="{Binding Location}">
+                    <m:MapItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <m:Pushpin Location="{Binding}"/>
+                        </DataTemplate>
+                    </m:MapItemsControl.ItemTemplate>
+                </m:MapItemsControl>
+            </m:Map>
         </Grid>
 
         <ItemsControl ItemsSource="{Binding StopList}" Grid.Column="1" Margin="30">
